@@ -87,36 +87,28 @@ const form = props => {
 
 const Form = withFormik({
   mapPropsToValues: ({
-    firstName,
-    lastName,
+   
     email,
-    course,
+   
     password,
-    confirmPassword
+  
   }) => {
     return {
-      firstName: firstName || "",
-      lastName: lastName || "",
+      
       email: email || "",
-      course: course || "",
+     
       password: password || "",
-      confirmPassword: confirmPassword || ""
     };
   },
 
   validationSchema: Yup.object().shape({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
+   
     email: Yup.string()
       .email("Enter a valid email")
       .required("Email is required"),
-    course: Yup.string().required("Select your course category"),
     password: Yup.string()
       .min(8, "Password must contain at least 8 characters")
-      .required("Enter your password"),
-    confirmPassword: Yup.string()
-      .required("Confirm your password")
-      .oneOf([Yup.ref("password")], "Password does not match")
+      .required("Enter your password")
   }),
 
   handleSubmit: (values, { setSubmitting }) => {
