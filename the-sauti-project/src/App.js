@@ -4,9 +4,12 @@ import { connect } from "react-redux";
 import { history } from "./utils/";
 import { alertInfo } from "./actions";
 import { PrivateRoute } from "./components/PrivateRoute";
-import { HomePage } from "./HomePage/";
-import { LoginPage } from "./LoginPage";
-import { Register } from "./Register";
+// import { HomePage } from "./HomePage/";
+// import { LoginPage } from "./LoginPage";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+import NavBar from "./components/NavBar";
+import Listings from "./components/Listings";
 
 
 class App extends React.Component {
@@ -28,12 +31,12 @@ class App extends React.Component {
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
                     <Router history={history}>
+                        <NavBar />
                         <Switch>
-                            <PrivateRoute exact path="/" component={HomePage} />
-
-                            <Route path="/login" component={LoginPage} />
-                            <Route path="/register" component={Register} />
-                            <Redirect from="*" to="/register" component={Register} />
+                            <PrivateRoute exact path="/" component={Listings} />
+                            <Route path="/login" component={Login} />
+                            <Route path="/signUp" component={SignUp} />
+                            <Redirect from="*" to="/register" component={SignUp} />
                         </Switch>
                     </Router>
                 </div>
