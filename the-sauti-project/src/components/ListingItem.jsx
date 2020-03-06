@@ -1,10 +1,22 @@
 import React from 'react'
 import { Card, CardContent, Typography, makeStyles, Grid } from '@material-ui/core';
+import { LocationOn, AccountCircle } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     root: {
         margin: theme.spacing(2),
         minHeight: '150px'
+    },
+    infoText: {
+        display: 'flex',
+        alignItems: 'center',
+        margin: '4px 0'
+    },
+    itemTitle: {
+        borderBottom: '2px inset'
+    },
+    addMarginBottom: {
+        marginBottom: '1rem'
     }
 }))
 
@@ -18,17 +30,17 @@ const ListingItem = ({ listing }) => {
                 <CardContent>
                     <Grid container justify='space-between'>
                         <Grid item>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography className={classes.itemTitle} color='textPrimary' variant="h5" component="h2">
                                 {item}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
+                            <Typography className={classes.addMarginBottom} variant="body2" color="textSecondary" component="p">
                                 {description}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                User: {username}
+                            <Typography className={classes.infoText} variant="body2" color="textSecondary" component="p">
+                                <AccountCircle /> {username}
                             </Typography>
-                            <Typography variant="body2" color="textSecondary" component="p">
-                                {location}
+                            <Typography className={classes.infoText} variant="body2" color="textSecondary" component="p">
+                               <LocationOn /> {location}
                             </Typography>
                         </Grid>
                         <Grid item>

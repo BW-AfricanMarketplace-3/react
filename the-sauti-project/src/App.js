@@ -4,10 +4,14 @@ import { connect } from "react-redux";
 import { history } from "./utils/";
 import { alertInfo } from "./actions";
 import { PrivateRoute } from "./components/PrivateRoute";
-// import { HomePage } from "./HomePage/";
-// import { LoginPage } from "./LoginPage";
-import { SignUpForm} from "./components/SignUp";
-import Listings from "./components/Listings";
+import { LoginPage } from "./LoginPage";
+import { HomePage } from "./HomePage";
+import { Register } from "./Register";
+
+import PriceList from "./components/PriceList" 
+import ProductsList from "./components/ProductsList";
+import NavBar from "./components/NavBar";
+
 
 
 class App extends React.Component {
@@ -29,12 +33,14 @@ class App extends React.Component {
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
                     <Router history={history}>
-                        <NavBar />
+                       <NavBar />
                         <Switch>
-                            <PrivateRoute exact path="/" component={Listings} />
-                            <Route path="/login" component={Login} />
-                            <Route path="/signUp" component={SignUpForm} />
-                            <Redirect from="*" to="/register" component={SignUpForm} />
+                            <PrivateRoute exact path="/" component={HomePage} />
+                            <PrivateRoute exact path="/product" component={ProductsList} />
+                            <PrivateRoute exact path="/listings" component={PriceList} />
+                            <Route path="/login" component={LoginPage} />
+                            <Route path="/register" component={Register} />
+                            <Redirect from="*" to="/register" component={Register} />
                         </Switch>
                     </Router>
                 </div>
