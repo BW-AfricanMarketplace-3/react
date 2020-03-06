@@ -67,8 +67,8 @@ const User = () => {
             </FormControl>
 
             {/* If it's the user's own page it should render UserListings */}
-            <Listings listings={listings} /> 
-            <UserListings userListings={listings} user={selectedUser} />
+            {/* <Listings listings={listings} />  */}
+            {/* <UserListings userListings={listings} user={selectedUser} /> */}
         </Fragment>
     )
 }

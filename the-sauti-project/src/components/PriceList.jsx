@@ -1,44 +1,27 @@
 import React, { useEffect, useState } from 'react';
+import MaterialTable from 'material-table';
 import Axios from 'axios';
-import { Container, makeStyles, Table, TableCell, TableBody, TableRow, TableHead, TableContainer, Paper, Typography } from '@material-ui/core';
-
-const useStyles = makeStyles(theme => ({
-    root: {
-        display: 'flex',
-        justifyContent: 'center'
-    },
-    list: {
-        width: '100%',
-        maxWidth: 500,
-        backgroundColor: theme.palette.background.paper
-    },
-    tableContainer: {
-        maxWidth: '600px',
-        maxHeight: '500px'
-    },
-    header: {
-        backgroundColor: theme.palette.primary
-    }
-
-}))
-
-const headCells = [
-    { id: 'product', label: 'Product' },
-    { id: 'product_cat', label: 'Category' },
-    { id: 'sub_category', label: 'Subcategory' },
-    { id: 'avg_price', label: 'Avg. Price' }
-  ];
+import { Container } from '@material-ui/core';
 
 const PriceList = () => {
-    const classes = useStyles();
+    // TODO token
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6OSwiaWF0IjoxNTgzMzQ5MjAyLCJleHAiOjE1ODM0MzU2MDJ9.AIa9vshllTsHHXFmJ8E_yp65tsQ3fCcUtbG9BroPGnM';
+    
 
-    // TODO change to dinamic token
-    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6OSwiaWF0IjoxNTgzMjYxMjM4LCJleHAiOjE1ODMzNDc2Mzh9.3teldLkKlu-DW4fM4u5-lTQ_2WVtg4QbXMoA4PKmZcQ';
     const [prices, setPrices] = useState([]);
+    const [table, setTable] = useState({
+        columns: [
+            { title: 'Product', field: 'product' },
+            { title: 'Category', field: 'product_cat' },
+            { title: 'Subcategory', field: 'sub_category' },
+            { title: 'Avg. Price', field: 'avg_price', type: 'numeric' }
+        ],
+        data: []
+    });
 
     useEffect(() => {
+        const config = { headers: { 'Authorization':token } }
         const fetchData = async () => {
-            const config = { headers: { 'Authorization':token } }
             try {
                 const res = await Axios.get('http://africanmarketplace.ddns.net:5000/api/prices', config);
                 setPrices(res.data);
@@ -47,35 +30,106 @@ const PriceList = () => {
             }   
         }
         fetchData();
-    }, [])
-    
+    }, []);
+
+    useEffect(() => {
+        setTable(table => ({
+            ...table,
+            data: prices.map(item => (item))
+        }));
+    }, [prices]);
+
+    const addPrice = async newData => {
+        try {
+            const config = { headers: { 'Authorization':token } }
+            const res = await Axios.post('http://africanmarketplace.ddns.net:5000/api/prices', newData, config);
+            if (res.statusText === 'Created') {
+                setPrices(prevPrices => [...prevPrices, {...newData, id: res.data.id}]);
+            }
+        } catch(err) {
+            console.log(err.message);
+        }
+    }
+
+    const removePrice = async oldData => {
+        try {
+            const res = await Axios.delete(`http://africanmarketplace.ddns.net:5000/api/prices/${oldData.id}`, {
+                headers: {
+                    'Authorization': token
+                },
+                data: oldData
+            });
+            console.log(res);
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setPrices(prevPrices => {
+                const index = prevPrices.findIndex(element => element.id === oldData.id);
+                prevPrices.splice(index, 1);
+                return [ ...prevPrices ];
+            })
+        }
+    }
+
+    const editPrice = async (oldData, newData) => {
+        // const config = { headers: { 'Authorization':token } }
+        // try {
+        //     const res = await Axios.put(`http://africanmarketplace.ddns.net:5000/api/prices/${oldData.id}`, newData, config);
+        //     console.log(res);
+        // } catch(err) {
+        //     console.log(err.message);
+        // } finally {
+        //     setPrices(prevPrices => {
+        //         const data = [...prevPrices];
+        //         data[data.indexOf(oldData)] = newData;
+        //         console.log(data);
+        //         return data;
+        //     })
+        // }     
+        
+        setPrices(prevPrices => {
+            const data = [...prevPrices];
+            data[data.indexOf(oldData)] = newData;
+            console.log(data);
+            return data;
+        })
+    }
+
+
     return (
-        <Container className={classes.root}>
-            <TableContainer className={classes.tableContainer} component={Paper}>
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            { headCells.map(headCell => (
-                                <TableCell className={classes.header} key={headCell.id}>
-                                    <Typography variant='h6' component='subtitle1'>{headCell.label}</Typography>
-                                </TableCell>
-                            )) }
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                    { prices.map(item => (
-                        <TableRow>
-                            <TableCell>{item.product}</TableCell>
-                            <TableCell>{item.product_cat}</TableCell>
-                            <TableCell>{item.sub_category}</TableCell>
-                            <TableCell>${item.avg_price.toFixed(2)}</TableCell>
-                        </TableRow>
-                    )) }
-                    </TableBody>
-                </Table>
-            </TableContainer>
+        <Container>
+            <MaterialTable
+            title="Price List"
+            columns={table.columns}
+            data={table.data}
+            editable={{
+                onRowAdd: newData =>
+                new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                        addPrice(newData);
+                    }, 600);
+                }),
+                onRowUpdate: (newData, oldData) =>
+                new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                        if (oldData) {
+                            editPrice(oldData, newData);
+                        }
+                    }, 600);
+                }),
+                onRowDelete: oldData =>
+                new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve();
+                        removePrice(oldData);
+                    }, 600);
+                }),
+            }}
+            />
         </Container>
-    )
+      );
 }
 
 export default PriceList

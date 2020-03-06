@@ -6,9 +6,7 @@ import { alertInfo } from "./actions";
 import { PrivateRoute } from "./components/PrivateRoute";
 // import { HomePage } from "./HomePage/";
 // import { LoginPage } from "./LoginPage";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import NavBar from "./components/NavBar";
+import { SignUpForm} from "./components/SignUp";
 import Listings from "./components/Listings";
 
 
@@ -35,8 +33,8 @@ class App extends React.Component {
                         <Switch>
                             <PrivateRoute exact path="/" component={Listings} />
                             <Route path="/login" component={Login} />
-                            <Route path="/signUp" component={SignUp} />
-                            <Redirect from="*" to="/register" component={SignUp} />
+                            <Route path="/signUp" component={SignUpForm} />
+                            <Redirect from="*" to="/register" component={SignUpForm} />
                         </Switch>
                     </Router>
                 </div>

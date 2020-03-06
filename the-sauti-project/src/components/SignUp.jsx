@@ -4,6 +4,8 @@ import * as yup from 'yup';
 import { TextField, Button, Grid, makeStyles, Paper, Typography, colors, InputAdornment, IconButton } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 import axios from 'axios';
+import connect from "react-redux";
+import actionUser from "../actions"
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -104,11 +106,12 @@ const SignUpForm = (props) => {
 
 const SignUp = withFormik({
     // Initialize "formik states"
-    mapPropsToValues: () => ({
+    mapPropsToValues: ({setToken}) => ({
         username: '',
         password: '',
         password2: '',
-        showPassword: false
+        showPassword: false,
+        setToken: setToken
     }),
     // Create yup validation schema
     validationSchema: yup.object().shape({
@@ -122,8 +125,9 @@ const SignUp = withFormik({
             .oneOf([yup.ref('password'), null], 'Passwords must match')
             .required('Password confirmation required')
     }),
-    handleSubmit: (data, { resetForm, setSubmitting }) => {
+    handleSubmit: (data, { resetForm, setSubmitting, props }) => {
         const { username, password } = data;
+        
         // Register
         axios.post('http://africanmarketplace.ddns.net:5000/api/auth/register', { username, password })
             .then(res => {
@@ -140,11 +144,17 @@ const SignUp = withFormik({
                     .catch(err => console.log(err))
             })
             .catch(err => console.log(err))
-            .finally(() => {
-                resetForm();
-                setSubmitting(false);
-            })
     }
+
+
+  
 })(SignUpForm)
 
-export default SignUp
+export default connect(mapsStateToProps, {actionUser})(SignUp)
+const mapsStateToProps = state => {
+    return{
+        username: state.username,
+        password: state.password,
+        password2: state.password2
+    }
+}
