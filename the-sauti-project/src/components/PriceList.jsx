@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import MaterialTable from 'material-table';
 import Axios from 'axios';
-import { Container } from '@material-ui/core';
+import { Container, Button } from '@material-ui/core';
+import { Link } from "react-router-dom";
 
 const PriceList = () => {
     const token = sessionStorage.getItem('token');
@@ -70,20 +71,20 @@ const PriceList = () => {
     }
 
     const editPrice = async (oldData, newData) => {
-        // const config = { headers: { 'Authorization':token } }
-        // try {
-        //     const res = await Axios.put(`http://africanmarketplace.ddns.net:5000/api/prices/${oldData.id}`, newData, config);
-        //     console.log(res);
-        // } catch(err) {
-        //     console.log(err.message);
-        // } finally {
-        //     setPrices(prevPrices => {
-        //         const data = [...prevPrices];
-        //         data[data.indexOf(oldData)] = newData;
-        //         console.log(data);
-        //         return data;
-        //     })
-        // }     
+        const config = { headers: { 'Authorization':token } }
+        try {
+            const res = await Axios.put(`http://africanmarketplace.ddns.net:5000/api/prices/${oldData.id}`, newData, config);
+            console.log(res);
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setPrices(prevPrices => {
+                const data = [...prevPrices];
+                data[data.indexOf(oldData)] = newData;
+                console.log(data);
+                return data;
+            })
+        }     
         
         setPrices(prevPrices => {
             const data = [...prevPrices];
@@ -96,6 +97,8 @@ const PriceList = () => {
 
     return (
         <Container>
+         <Button><Link to="/">Home</Link></Button>
+        <Button><Link to="/prices">prices</Link></Button>
             <MaterialTable
             title="Price List"
             columns={table.columns}

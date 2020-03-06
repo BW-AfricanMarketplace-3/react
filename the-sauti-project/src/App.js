@@ -5,12 +5,11 @@ import { history } from "./utils/";
 import { alertInfo } from "./actions";
 import { PrivateRoute } from "./components/PrivateRoute";
 import { LoginPage } from "./LoginPage";
-import { HomePage } from "./HomePage";
 import { Register } from "./Register";
 
 import PriceList from "./components/PriceList" 
 import ProductsList from "./components/ProductsList";
-import NavBar from "./components/NavBar";
+import Listings from "./components/Listings";
 
 
 
@@ -33,11 +32,11 @@ class App extends React.Component {
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }
                     <Router history={history}>
-                       <NavBar />
+                     
                         <Switch>
-                            <PrivateRoute exact path="/" component={HomePage} />
-                            <PrivateRoute exact path="/product" component={ProductsList} />
-                            <PrivateRoute exact path="/listings" component={PriceList} />
+                            <PrivateRoute exact path="/listings" component={Listings} />
+                            <PrivateRoute exact path="/" component={ProductsList} />
+                            <PrivateRoute exact path="/prices" component={PriceList} />
                             <Route path="/login" component={LoginPage} />
                             <Route path="/register" component={Register} />
                             <Redirect from="*" to="/register" component={Register} />

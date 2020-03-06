@@ -13,6 +13,7 @@ export const actionUser = {
     logout,
     register,
     getAll,
+    add,
     delete: _delete
 } 
 
@@ -81,6 +82,22 @@ function getAll() {
     function success(users) { return { type: userMessages.GETALL_SUCCESS, users } }
     function failure(error) { return { type: userMessages.GETALL_FAILURE , error } }
 }
+
+function add(id) {
+    return dispatch => {
+        dispatch(request(id))
+
+        crud_handling.add(id)
+        .then(
+            user => dispatch(success(id)),
+            error => dispatch(failure(id, error.toString()))
+        )
+    }
+    function request(id) { return { type: userMessages.ADD_REQUEST, id } }
+    function success(id) { return { type: userMessages.ADD_SUCCESS, id } }
+    function failure(id) { return { type: userMessages.ADD_FAILURE, id } }
+}
+
 
 
 function _delete(id) {

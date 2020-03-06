@@ -10,7 +10,8 @@ class PostItem extends React.Component {
       item: "",
       description: "",
       location: "",
-      price: ""
+      price: "",
+     
     };
   }
 
@@ -23,7 +24,8 @@ class PostItem extends React.Component {
     console.log(this.state);
 
     axiosWithAuth()
-      .post(`/api/users/id/listings`, this.state)
+    
+      .post(`/api/users/${this.state.user_Id}/listings`, this.state.userId)
       .then(res => {
         console.log("Post Request", res.data);
       })
@@ -34,7 +36,7 @@ class PostItem extends React.Component {
     const { item, description, location, price } = this.state;
     return (
       <div>
-        <form onSubmit={this.submitHandler}>
+        <form style={{textAlign: "center", marginBottom: "2%"}}onSubmit={this.submitHandler}>
           <TextField
             placeholder="item"
             type="text"

@@ -80,6 +80,17 @@ function register(users) {
     })
 }
 
+function add(user) {
+    const requestOptions = {
+        method: "POST",
+        headers: {...authHeader(), "Content-Type": "application/json"},
+        body: JSON.stringify(user)
+    }
+    return fetch(`http://africanmarketplace.ddns.net:5000/api/users/${user.Id}/listings`, requestOptions
+    )
+    .then(handleResponse)
+}
+
 function update(user) {
     const requestOptions = {
         method: "PUT",
