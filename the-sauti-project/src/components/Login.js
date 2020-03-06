@@ -8,9 +8,7 @@ import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
-        height: 'calc(100% - 112px)',
         width: '100%',
-        backgroundColor: colors.grey[100],
         margin: 0,
         padding: 0,
         display: 'flex',
@@ -18,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     },
     paper: {
         width: '100%',
-        marginTop: '50px',
         padding: theme.spacing(2)
     },
     fieldsContainer: {
@@ -118,7 +115,7 @@ const Login = withFormik({
             .min(8, 'Password must have at least 8 characters')
             .required('Password required')
     }),
-    handleSubmit: (data, { resetForm, setSubmitting, props }) => {
+    handleSubmit: (data, { resetForm, setErrors, setSubmitting, props }) => {
         const { username, password } = data;
         
         // Log in 
@@ -131,7 +128,10 @@ const Login = withFormik({
                 setSubmitting(false);
                 props.handleLogin(token, user_id);
             })
-            .catch(err => console.log(err))
+            .catch(err => {
+                setSubmitting(false);
+                return setErrors({password: 'Password doesn\'t match'})
+            })
     }
 })(LoginForm)
 

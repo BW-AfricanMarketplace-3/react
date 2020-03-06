@@ -4,18 +4,19 @@ import ListingItem from './ListingItem';
 import { Grid, Container, makeStyles, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start'
+    },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120,
+      minWidth: '180px'
     }
   }));
 
 const Listings = () => {
-    // debugger
-    // TODO change to dinamic token
-    // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6OSwiaWF0IjoxNTgzMzQ5MjAyLCJleHAiOjE1ODM0MzU2MDJ9.AIa9vshllTsHHXFmJ8E_yp65tsQ3fCcUtbG9BroPGnM';
     const token = sessionStorage.getItem('token');
-
 
     const classes = useStyles();
     const [listings, setListings] = useState([]);
@@ -69,7 +70,7 @@ const Listings = () => {
     const handleChange = e => setSelectedUser(e.target.value);
     
     return (
-        <Container>
+        <Container className={classes.root}>
             <FormControl className={classes.formControl}>
                 <InputLabel id="user-select-label">Select User</InputLabel>
                 <Select value={selectedUser.id === '' ? '' : selectedUser} labelId='user-select-label' displayEmpty onChange={handleChange}>

@@ -7,19 +7,16 @@ import axios from 'axios';
 import connect from "react-redux";
 import actionUser from "../actions"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => ({ 
     root: {
-        height: 'calc(100% - 112px)',
         width: '100%',
-        backgroundColor: colors.grey[100],
-        margin: 0,
+        margin: 0,  
         padding: 0,
         display: 'flex',
         justifyContent: 'center'
     },
     paper: {
         width: '100%',
-        marginTop: '50px',
         padding: theme.spacing(2)
     },
     fieldsContainer: {
