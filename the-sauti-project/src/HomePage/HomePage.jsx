@@ -21,6 +21,9 @@ class HomePage extends React.Component{
         // const { user, users } = this.props;
         return(
             <div>
+            <Link to="/">Home</Link>
+            <Link to="/product">Product</Link>
+            <Link to="/listings">Listings</Link>
                 <h1>Hello and Welcome to your MarketPlace</h1>
                 
                 <h3>All your personal listings</h3>

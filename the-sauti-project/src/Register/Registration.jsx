@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { TextField, Card, CardContent, Button } from "@material-ui/core";
 
 
 import { actionUser } from "../actions";
@@ -57,13 +58,17 @@ class Register extends React.Component {
                 <div>
                     <h2>Register</h2>
                     <form onSubmit={this.handleSubmit}>
+                    <Card>
+                        <CardContent>
+                      
                     
                         <div className={ "form-group" + ( submitted && !user.userName? "has error" : '')}>
-                            <label htmlFor="username"> username</label>
-                            <input
+                           
+                            <TextField
                             id="userName"
                             type="text" 
                             name="userName"
+                            label="Username"
                             className="form-control"
                             value={user.userName}
                             onChange={this.handleChange}
@@ -73,10 +78,11 @@ class Register extends React.Component {
                             }
                         </div>
                         <div className={ " form-group " + ( submitted && !user.password ? " has error" : '')}>
-                            <label htmlFor="password"> password</label>
-                            <input
+                            
+                            <TextField
                             id="password"
                             type="password" 
+                            label="Password"
                             name="password"
                             className="form-control"
                             value={user.password}
@@ -85,11 +91,15 @@ class Register extends React.Component {
                             { submitted && !user.password &&
                             <div> password is Required</div> 
                             }
-                        </div>
+                        </div>  
+                        </CardContent>
+                    </Card>
                         <div>
-                            <button>Submit</button>
+                         
+                      
+                            <Button>Submit</Button>
                            {registering}
-                        <Link to="/login"> Cancel</Link>
+                        <Button><Link to="/login"> Cancel</Link></Button>
                         </div>
                     </form>
                 </div>

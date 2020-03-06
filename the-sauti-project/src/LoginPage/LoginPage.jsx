@@ -1,7 +1,8 @@
 import React from "react";
 import { actionUser } from "../actions";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";;
+import { Link } from "react-router-dom";
+import { TextField, Card, CardContent, Button } from "@material-ui/core";
 
 
 
@@ -46,24 +47,33 @@ class LoginPage extends React.Component{
             <div>
                 <h2>Login</h2>
                 <form onSubmit={this.handleSubmit}>
+                <Card>
+                    <CardContent>
+
+                 
                 <div className={ "form-group" + (submitted && !username ? " has error" : ''  )}>
-                    <label htmlFor="username">Username</label>
-                    <input type="text" name="username" value={username} onChange={this.handleChange} />
+                    
+                    <TextField type="text" label="username" name="username" value={username} onChange={this.handleChange} />
                     {submitted && !username && 
                     <div> username is requires</div>
                     }
                 </div>
                 <div className={ "form-group" + (submitted && !username ? " has error" : ''  )}>
-                        <label htmlFor="password">password</label>
-                        <input type="password" name="password" value={password} onChange={this.handleChange} />
+                       
+                        <TextField type="password" label="password" name="password" value={password} onChange={this.handleChange} />
                         {submitted && !password &&
                         <div> password is required</div>
                         }
                 </div>
+                </CardContent>
+                </Card>
                 <div>
-                    <button>Login</button>
+                <Button type="submit" color="primary" >
+              LOGIN
+            </Button>
+            
                     {loggingIn}
-                    <Link to="/register">Register</Link>
+                    <Button><Link to="/register">Register</Link></Button>
                 </div>
 
                 </form>

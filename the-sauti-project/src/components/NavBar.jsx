@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { AppBar, Toolbar, Typography, Tabs, Tab, makeStyles, Container, IconButton } from '@material-ui/core';
+import React, { Fragment, useEffect, useState } from 'react';
+import { AppBar, Toolbar, Tabs, Tab, makeStyles, Container, IconButton } from '@material-ui/core';
 import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -18,15 +18,9 @@ const useStyles = makeStyles(theme => ({
 
 const Navbar = () => {
     const classes = useStyles();
-
-    let pathName = useLocation().pathname;
-    
-    if(!sessionStorage.getItem('token')) {
-        if(!['/login', '/signup'].includes(pathName)) {
-            pathName = '/login';
-        }    
-    }
-    
+    const locationPathName = useLocation().pathname;
+    const protectedRoutes = ['/prices', '/listings', '/' ];
+    const nonProtectedRoutes = [ '/login', '/signup' ];
 
     return (
         <Fragment>
@@ -40,13 +34,13 @@ const Navbar = () => {
                 </Container>
             </AppBar>
             { sessionStorage.getItem('token') ?
-                <Tabs className={classes.tab} value={pathName} indicatorColor='primary' textColor='primary' centered>
+                <Tabs className={classes.tab} value={protectedRoutes.includes(locationPathName) ? locationPathName : '/' } indicatorColor='primary' textColor='primary' centered>
                     <Tab label="Home" component={Link} value="/" to='/' />
                     <Tab label="Prices" component={Link} value="/prices" to='/prices' />
                     <Tab label="Listings" component={Link} value="/listings" to='/listings' />
                 </Tabs>
                 : 
-                <Tabs className={classes.tab} value={pathName} indicatorColor='primary' textColor='primary' centered>
+                <Tabs className={classes.tab} value={nonProtectedRoutes.includes(locationPathName) ? locationPathName : '/login' } indicatorColor='primary' textColor='primary' centered>
                     <Tab label="Login" component={Link} value="/login" to='/login' />
                     <Tab label="Sign Up" component={Link} value="/signup" to='/signup' />
                 </Tabs>

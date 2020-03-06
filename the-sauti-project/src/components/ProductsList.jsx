@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Axios from 'axios';
 import Product from './Product';
 import { Grid, Container } from '@material-ui/core';
+import PostItems from "../crud_Operation/PostForm";
 
 const ProductsList = () => {
     const [itemsList, setItemsList] = useState([]);
@@ -16,7 +17,10 @@ const ProductsList = () => {
         fetchData();
     }, [])
     return (
+
         <Container>
+        <PostItems />
+
             <Grid justify='center' container>
                 { itemsList.map(item => (
                     <Product key={item.id} product={item} />

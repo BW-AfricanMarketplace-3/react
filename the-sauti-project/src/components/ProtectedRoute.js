@@ -7,10 +7,9 @@ const ProtectedRoute = ({ component: Component, ...rest }) =>  {
     <Route
     {...rest}
     render={props => (
-        sessionStorage.getItem('token') ?
-            <Component {...props} />
-            :
-            <Redirect to={{
+        sessionStorage.getItem('token') 
+        ? <Component {...props} {...rest} />
+        : <Redirect to={{
                 pathname: '/login',
                 state: { from: props.location }
             }} />

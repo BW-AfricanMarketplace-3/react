@@ -103,12 +103,11 @@ const SignUpForm = (props) => {
 
 const SignUp = withFormik({
     // Initialize "formik states"
-    mapPropsToValues: ({setToken}) => ({
+    mapPropsToValues: () => ({
         username: '',
         password: '',
         password2: '',
-        showPassword: false,
-        setToken: setToken
+        showPassword: false
     }),
     // Create yup validation schema
     validationSchema: yup.object().shape({

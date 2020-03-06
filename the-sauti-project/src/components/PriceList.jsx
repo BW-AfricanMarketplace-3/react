@@ -28,7 +28,7 @@ const PriceList = () => {
             }   
         }
         fetchData();
-    }, []);
+    }, [token]);
 
     useEffect(() => {
         setTable(table => ({
